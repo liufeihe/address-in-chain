@@ -1,7 +1,6 @@
 package common
 
 import (
-	"encoding/hex"
 	"math/rand"
 	"time"
 
@@ -36,16 +35,10 @@ type Secp256k1KeyPair struct {
 	PubKey *secp256k1.PublicKey
 }
 
-func GetSecp256k1KeyPairByPriKey(priKey []byte) *Secp256k1KeyPair {
+func GetSecp256k1KeyPairByPriKeyByte(priKey []byte) *Secp256k1KeyPair {
 	privateKey, publicKey := btcec.PrivKeyFromBytes(priKey)
 	return &Secp256k1KeyPair{
 		PriKey: privateKey,
 		PubKey: publicKey,
 	}
-}
-
-func GetPubKeyOfHexByPriKey(priKey []byte) string {
-	keyPair := GetSecp256k1KeyPairByPriKey(priKey)
-	uncompressedPubKey := append(keyPair.PubKey.X().Bytes(), keyPair.PubKey.Y().Bytes()...)
-	return hex.EncodeToString(uncompressedPubKey)
 }
