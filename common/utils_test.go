@@ -22,7 +22,11 @@ func TestGetBytesOflenWithRandomVal(t *testing.T) {
 	}
 	strOfBase64 := base64.StdEncoding.EncodeToString(bytes)
 	strOfHex := hex.EncodeToString(bytes)
-	fmt.Println("GetBytesOflenWithRandomVal", bytes, strOfBase64, strOfHex)
+	fmt.Println("priKey bytes", bytes)
+	fmt.Println("priKey bytes to base64", strOfBase64)
+	fmt.Println("priKey bytes to hex", strOfHex)
+	secpKeyPair := GetSecp256k1KeyPairByPriKeyByte(bytes)
+	fmt.Println("secpKeyPair", secpKeyPair.PriKey)
 }
 
 func TestGetBytesOflenWithRandomValInBatch(t *testing.T) {
