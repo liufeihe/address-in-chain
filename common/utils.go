@@ -1,8 +1,12 @@
 package common
 
 import (
+	"encoding/hex"
 	"math/rand"
 	"time"
+
+	"github.com/btcsuite/btcd/btcec/v2"
+	"github.com/decred/dcrd/dcrec/secp256k1/v4"
 )
 
 func GetTimestampInMs() int64 {
@@ -25,4 +29,23 @@ func GetBytesOflenWithRandomVal(len int64) []byte {
 		bytes[i] = byte(rand.Intn(256))
 	}
 	return bytes
+}
+
+type Secp256k1KeyPair struct {
+	PriKey *secp256k1.PrivateKey
+	PubKey *secp256k1.PublicKey
+}
+
+func GetSecp256k1KeyPairByPriKey(priKey []byte) *Secp256k1KeyPair {
+	privateKey, publicKey := btcec.PrivKeyFromBytes(priKey)
+	return &Secp256k1KeyPair{
+		PriKey: privateKey,
+		PubKey: publicKey,
+	}
+}
+
+func GetPubKeyOfHexByPriKey(priKey []byte) string {
+	keyPair := GetSecp256k1KeyPairByPriKey(priKey)
+	uncompressedPubKey := append(keyPair.PubKey.X().Bytes(), keyPair.PubKey.Y().Bytes()...)
+	return hex.EncodeToString(uncompressedPubKey)
 }

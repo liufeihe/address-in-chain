@@ -35,3 +35,14 @@ func TestGetBytesOflenWithRandomValInBatch(t *testing.T) {
 		fmt.Println(i, strOfHex)
 	}
 }
+
+func TestGetPubKeyOfHexByPriKey(t *testing.T) {
+	priKeyOfBytes := GetBytesOflenWithRandomVal(32)
+	if len(priKeyOfBytes) != 32 {
+		t.Fatalf("GetBytesOflenWithRandomVal err %v", len(priKeyOfBytes))
+	}
+	strOfPriKeyOfBytes := hex.EncodeToString(priKeyOfBytes)
+	fmt.Println("strOfPriKeyOfBytes", strOfPriKeyOfBytes)
+	pubKeyStr := GetPubKeyOfHexByPriKey(priKeyOfBytes)
+	fmt.Println("pubKeyStr", pubKeyStr)
+}
