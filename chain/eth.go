@@ -2,6 +2,7 @@ package chain
 
 import (
 	"crypto/ecdsa"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -10,6 +11,12 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/liufeihe/address-in-chain/common"
 )
+
+type EthscanRes struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+	Result  string `json:"result"`
+}
 
 type EthMgr struct {
 	KeyPair *common.Secp256k1KeyPair
@@ -46,6 +53,13 @@ func (e *EthMgr) GetBalanceFromEtherScan(addr string, apiKey string) (string, er
 	if err != nil {
 		return "", err
 	}
-	fmt.Println("Balance (Wei):", string(body))
-	return "", nil
+	ethScanRes := EthscanRes{}
+	err = json.Unmarshal(body, &ethScanRes)
+	if err != nil {
+		return "", err
+	}
+	if ethScanRes.Message != "OK" {
+		return "", errors.New(ethScanRes.Message)
+	}
+	return ethScanRes.Result, nil
 }
