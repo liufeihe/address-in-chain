@@ -18,21 +18,21 @@ type EthscanRes struct {
 	Result  string `json:"result"`
 }
 
-type EthMgr struct {
+type EthAddrMgr struct {
 	KeyPair *common.Secp256k1KeyPair
 }
 
-func NewEthMgr() *EthMgr {
-	return &EthMgr{}
+func NewEthAddrMgr() *EthAddrMgr {
+	return &EthAddrMgr{}
 }
 
-func (e *EthMgr) SetKeyPairWithRandom() {
+func (e *EthAddrMgr) SetKeyPairWithRandom() {
 	priKey := common.GetBytesOflenWithRandomVal(32)
 	secp := common.GetSecp256k1KeyPairByPriKeyByte(priKey)
 	e.KeyPair = secp
 }
 
-func (e *EthMgr) GetAddress() (string, error) {
+func (e *EthAddrMgr) GetAddress() (string, error) {
 	if e.KeyPair == nil {
 		return "", errors.New("no key pair")
 	}
@@ -40,7 +40,7 @@ func (e *EthMgr) GetAddress() (string, error) {
 	return ethAddress.Hex(), nil
 }
 
-func (e *EthMgr) GetBalanceFromEtherScan(addr string, apiKey string) (string, error) {
+func (e *EthAddrMgr) GetBalanceFromEtherScan(addr string, apiKey string) (string, error) {
 	url := fmt.Sprintf("https://api.etherscan.io/api?module=account&action=balance&address=%s&tag=latest&apikey=%s", addr, apiKey)
 
 	response, err := http.Get(url)

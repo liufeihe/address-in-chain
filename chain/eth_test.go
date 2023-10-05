@@ -6,9 +6,9 @@ import (
 )
 
 func TestEthGetAddress(t *testing.T) {
-	mgr := NewEthMgr()
+	mgr := NewEthAddrMgr()
 	if mgr == nil {
-		t.Fatalf("NewEthMgr err")
+		t.Fatalf("NewEthAddrMgr err")
 	}
 	mgr.SetKeyPairWithRandom()
 	addr, err := mgr.GetAddress()
@@ -19,9 +19,9 @@ func TestEthGetAddress(t *testing.T) {
 }
 
 func TestGetBalanceFromEtherScan(t *testing.T) {
-	mgr := NewEthMgr()
+	mgr := NewEthAddrMgr()
 	if mgr == nil {
-		t.Fatalf("NewEthMgr err")
+		t.Fatalf("NewEthAddrMgr err")
 	}
 	mgr.SetKeyPairWithRandom()
 	addr, err := mgr.GetAddress()
